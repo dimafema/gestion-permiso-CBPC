@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Vacaciones {% endblock title %}
+     <div class="button-container">
+
+ {% block content %}
+ <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
+    <div class="text-center">
+            <h2>Descanso anuales del personal operativo</h2>
+    </div>
+</div>
+<div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
+    <ul class="list-group">
+        {% for vacaciones in vacaciones %}
+    <li class="list-group-item" style="background-color: lightcoral; color: black; margin: 5px 50px 10px;">
+            <a href="{% url 'list_vacaciones' %}" style="color: black; text-decoration: none;">
+                  {{vacaciones.usuario.numero_casco}}: {{ vacaciones.fecha_inicio }} al {{ vacaciones.fecha_fin }} = {{ vacaciones.dias_totales }} dias.
+            </a>
+    </li>
+        {% endfor %}
+    </ul>   
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar brigada seleccionada{% endblock title %}
+     <div class="button-container">
+
+{% block content %}
+<hr style="border: 1px solid black;">
+<div style="text-align: center;">
+    <h2>Editar brigada</h2>
+</div>
+<form method="post" style= "width: 500px; margin: 0 auto; margin-bottom: 10px;">
+    {% csrf_token %}
+    <div style="padding: 10px;">
+        {{ form.as_p }}
+    </div>
+    <div style="text-align: right; padding: 10px;">
+        <div class="text-bg">
+            <div>
+                <button <a type="submit" class="read_more" href="Javascript:void(0)">Guardar</a></button>
+            </div>
+        </div>
+</form>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block title %} editar parque {% endblock title %}
+     <div class="button-container">
+
+ {% block content %}
+ <div class="button-container" style="text-align: left; margin-top: 50px;  justify-content: center; align-items: center; height: 50vh;">
+    <div class="text-center">
+            <h2>Seleccione el parque a editar</h2
+    </div>
+</div>
+<div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
+    <ul class="list-group">
+        {% for parque in parque %}
+    <li class="list-group-item" style="background-color: lightcoral; color: black; margin: 5px 50px 5px;">
+            <a href="{% url 'editar_parque' parque.id %}" style="color: black; text-decoration: none;">
+                   {{parque.codigo_parque}} : {{ parque.nombre }} 
+            </a>
+    </li>
+        {% endfor %}
+    </ul>   
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Panel central {% endblock title %}
+     <div class="button-container">
+        
+{% block content %}
+     
+     <div class="container">
+          <div class="row">
+               <div class="col-md-12">
+                    {%if user.is_authenticated%}
+                         <p>Bienvenido, {{user.first_name}}</p>
+                    {%endif%}
+               </div>
+          </div>
+          <hr style="border: 1px solid black;">
+          <div class="row">
+               <div class="col-md-12">
+                    <p> Aviso Importante:<br>
+                         <h5>Esta aplicación <strong>NO</strong> es una aplicación oficial del CBPC. Ha sido desarrollada de forma independiente con el objetivo de facilitar la gestión de permisos<h5> </p>
+                    <a href="{% url 'condiciones_uso' %}"><strong><em>Ir a Términos y Condiciones de Uso</em></strong></a>
+                 
+               </div>
+          </div>
+     </div>
+     {% if user.is_authenticated %}
+          <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
+               <div class="text-center">
+                    <h1>Efectivos de tu brigada</h1>
+               </div>
+          </div>
+          <div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
+               <ul class="list-group">
+               {% for usuario in usuarios|dictsort:"numero_casco"  %}
+               <li class="list-group-item" style="background-color: lightcoral; color: black; margin: 2px 5px 1px;">
+                    <a style="color: black; text-decoration: none;">
+                         {{ usuario.numero_casco }}: {{ usuario.nombre }} {{ usuario.apellido }}
+                    </a>
+                    </a>
+               </li>
+               {% endfor %}
+               </ul>   
+          </div>
+     {%else%}
+          <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
+               <div class="text-center">
+                    <h1>Debes estar identificado para ver el contenido</h1>
+               </div>
+          </div>
+     {%endif%}
+{% endblock content %}

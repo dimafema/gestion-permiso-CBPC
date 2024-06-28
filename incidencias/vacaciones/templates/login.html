@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- site metas -->
+      <title>
+         {% block title %}Login{% endblock title %}
+      </title>
+      <meta name="keywords" content="bomberos, permisos">
+      <meta name="description" content="aplicación web que gestiona los permisos del colectivo de bomberos Cádiz">
+      <meta name="author" content="Diego Fdez.">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+      <!-- style css -->
+      <link rel="stylesheet" href="/static/css/style.css">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="/static/css/responsive.css">
+      <!-- fevicon -->
+      <link rel="icon" href="/static/images/fevicon.png" type="image/gif" />
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+      <style>
+         .banner {
+            background-image: url("/static/images/banner_a.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            width: 100%;
+         }
+      </style>
+   </head>
+
+   <header>
+   </header>
+ 
+   <body class="main-layout">
+    <!-- loader  -->
+         <div class="banner">
+            <div class="loader_bg">
+               <div class="loader"><img src="/static/images/loading.gif" alt="#"/></div>
+            </div>
+
+            <div class="alert alert-acceda" role="alert">
+               {% if messages %} 
+               {% for message in messages %}
+               {{ message }}
+               {% endfor %}
+               {% endif %}
+            </div>
+            <div class="container" style="margin_top: 100px;">
+            <div class="row justify-content-center">
+               <div class="col-md-6">
+                  <div class="card" style="background-color: transparent; margin-top: 100px;">
+                     <div class="card-header text-center">Bienvenido, acceda a la plataforma<br> para gestionar su permisos</div>
+                       <form method="post" action="" style="text-align: center;">
+                           {% csrf_token %}
+                           <div style="padding: 10px;">
+                              {{ form.as_p }}
+                        </div>
+                           <div style="text-align: center;">
+                              <div class="text-align: center; ">
+                                    <div>
+                                       <button type="submit" class="btn btn-primary">Acceder</button>
+                                    </div>
+                              </div>
+                           <div style="text-align: center; border: 0px solid black">
+                              <p>Si aún no estás registrado, regístrate aquí</p>
+                              <a href="registro" class="btn btn-primary">Crear usuario</a>
+                           </div>
+                        </div>
+                       </form>
+                  </div>
+               </div>
+            </div>
+         </div>     
+   </body>
+    <!-- Javascript files-->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/jquery-3.0.0.min.js"></script>
+    <!-- sidebar -->
+    <script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/static/js/custom.js"></script> 
+
+  
+      
+   

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar usuario seleccionado{% endblock title %}
+     <div class="button-container">
+
+{% block content %}
+<hr style="border: 1px solid black;">
+    <div style="text-align: center;">    
+        <h2>Eliminar Usuario</h2>
+    </div>
+    
+    <form method="post" style= "width: 500px; margin: 0 auto; margin-bottom: 10px;">
+        {% csrf_token %}
+        <div style="padding: 10px;">
+            {% for field in form %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <p>{{ field.value }}</p>
+            {% endfor %}
+        </div>
+        <div style="text-align: right; padding: 10px;">
+            <div class="text-bg">
+                <div>
+                    <button <a type="submit" class="read_more" href="Javascript:void(0)">Eliminar</a></button>
+                </div>
+            </div>
+    </form>
+{% endblock %}

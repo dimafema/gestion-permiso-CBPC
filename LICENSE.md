@@ -1,0 +1,1 @@
+Este proyecto está **licenciado como software libre** , lo que significa que tienes el derecho de editarlo y modificarlo según tus necesidades. Sin embargo, **no tienes permiso para utilizarlo con fines comerciales** o para obtener beneficios económicos. Recuerda respetar los términos de la licencia y dar crédito adecuado al autor original.
