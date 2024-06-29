@@ -5,50 +5,41 @@
      <div class="button-container">
         
 {% block content %}
-     
-     <div class="container">
-          <div class="row">
-               <div class="col-md-12">
-                    {%if user.is_authenticated%}
-                         <p>Bienvenido, {{user.first_name}}</p>
-                    {%endif%}
-               </div>
-          </div>
-          <hr style="border: 1px solid black;">
-          <div class="row">
-               <div class="col-md-12">
-                    <p> Aviso Importante:<br>
-                         <h5>Esta aplicación <strong>NO</strong> es una aplicación oficial del CBPC. Ha sido desarrollada de forma independiente con el objetivo de facilitar la gestión de permisos<h5> </p>
-                    <a href="{% url 'condiciones_uso' %}"><strong><em>Ir a Términos y Condiciones de Uso</em></strong></a>
-                 
-               </div>
-          </div>
-     </div>
-     {% if user.is_authenticated %}
-          <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
-               <div class="text-center">
-                    <h1>Efectivos de tu brigada</h1>
-               </div>
-          </div>
-          <div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
-               <ul class="list-group">
-               {% for usuario in usuarios|dictsort:"numero_casco"  %}
-               {% if usuario.parque_id == user.parque_id and usuario.brigada_id == user.brigada_id %}
-               <li class="list-group-item" style="background-color: lightcoral; color: black; margin: 2px 5px 1px;">
-                    <a style="color: black; text-decoration: none;">
-                         {{ usuario.numero_casco }}: {{ user.first_name }} {{ user.last_name }}<br>
-                    </a>
-               </li>
-               {% endif %}
-               {% endfor %}
-               </ul>   
-          </div>
-     {% endif %}
-     {%else%}
-          <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
-               <div class="text-center">
-                    <h1>Debes estar identificado para ver el contenido</h1>
-               </div>
-          </div>
-     {%endif%}
+      
+      <div class="container">
+            <div class="row">
+                  <div class="col-md-12">
+                        {% if user.is_authenticated %}
+                              <p>Bienvenido, <strong>{{ user.first_name }}</strong>, estás destinado en la <strong>{{brigada}}</strong> del parque de <strong>{{parque}}</strong></p>
+                         {% endif %}
+                  </div>
+            </div>
+            <hr style="border: 0,5px solid black;">
+            <div class="row">
+                  <div class="col-md-12">
+                        <p> Aviso Importante:<br>
+                        <h5>Esta aplicación <strong>NO</strong> es una aplicación oficial del CBPC. Ha sido desarrollada de forma independiente con el objetivo de facilitar la gestión de permisos<h5> </p>
+                  </div>
+            </div>
+      </div>
+      {% if user.is_authenticated %}
+                  <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
+                        <div class="text-center">
+                              <h1>Efectivos de tu brigada  </h1> 
+                        </div>
+                  </div>
+                  <div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
+                        <ul class="list-group">
+                        {% for efectivo in efectivos|dictsort:"numero_casco" %}
+                              <li class="list-group-item text-left" style="background-color: rgba(0, 0, 0, 0.1); margin-left: 10%; margin-right: 10%;">{{ efectivo.numero_casco }}: {{ efectivo }} {{user.last_name}}</li>
+                        {% endfor %}
+                        </ul> 
+                  </div>
+                  <hr style="border: 0,5px solid black;">       
+                  <div style="margin-left: 5%;"><a href="{% url 'condiciones_uso' %}"><strong><em>Ir a Términos y Condiciones de Uso</em></strong></a></div>
+      {% else %}
+            <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
+                  <div class="text-center"><h1>Debes estar identificado para ver el contenido</h1></div>
+            </div>
+      {% endif %}
 {% endblock content %}

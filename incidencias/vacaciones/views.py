@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from django.contrib.auth.models import User
@@ -8,9 +9,9 @@ from .models import  Parque, Zona, Brigada, Usuario
 from datetime import timedelta
 
 # página de incio
-def panel_crear(request):
-    usuarios = {'usuarios': Usuario.objects.all()}
-    return render(request, 'panel_crear.html', usuarios)
+# def panel_crear(request):
+#     usuarios = {'usuarios': Usuario.objects.all()}
+#     return render(request, 'panel_crear.html', usuarios)
 
 def cond_uso(request):
     return render(request, 'condicionesuso.html')
@@ -46,13 +47,24 @@ def crear_usuario(request):
         if form.is_valid():
             form.save()
             return redirect('/')
-        if form.is_valid():
-            form.save()
-            return redirect('/')
     else:
         form = UsuarioForm()
     return render(request, 'usuario/crear_user.html', {'form': form},)
 
+# Vista para crear una lista filtrada de usuarios
+def home(request):
+     # Asegúrate de que el usuario esté autenticado
+        if request.user.is_authenticated: 
+            # Filtra los objetos Usuario por el usuario autenticado y otros criterios
+            efectivo = Usuario.objects.filter(usuario_id=request.user.id)
+            if efectivo:
+                parque = efectivo[0].parque
+                brigada = efectivo[0].brigada
+            usuarios_brigada = Usuario.objects.filter(parque_id=efectivo[0].parque_id, brigada_id=efectivo[0].brigada_id) if efectivo else None
+        else:
+            usuarios_brigada = None
+        # Pasa los objetos filtrados al contexto de la plantilla
+        return render(request, 'panel_crear.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada})
 
 # Vista para crear un nueva zona
 def crear_zona(request):
@@ -199,7 +211,7 @@ def editar_usuario(request, id):
         form = UsuarioForm(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
-            return redirect('/', id=id)
+            return redirect('/home', id=id)
     else:
         form = UsuarioForm(instance=usuario)
     return render(request, 'usuario/editar_usuario.html', {'form': form})

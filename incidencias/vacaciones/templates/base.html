@@ -50,35 +50,11 @@
                            <div class="collapse navbar-collapse" id="navbarsExample04">
                               <ul class="navbar-nav mr-auto">
                                  <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">zona</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                       <a class="dropdown-item" href="{% url 'crear_zona' %}">crea</a>
-                                       <a class="dropdown-item" href="{% url 'list_edit_zona' %}">editar</a>
-                                       <a class="dropdown-item" href="{% url 'list_delete_zona' %}">eliminar</a>
-                                    </div>
-                                 </li>
-                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">parque</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                       <a class="dropdown-item" href="{% url 'crear_parque' %}">crea</a>
-                                       <a class="dropdown-item" href="{% url 'list_edit_parque' %}">editar</a>
-                                       <a class="dropdown-item" href="{% url 'list_delete_parque' %}">eliminar</a>
-                                    </div>
-                                 </li>
-                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">brigada</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                       <a class="dropdown-item" href="{% url 'crear_brigada' %}">crea</a>
-                                       <a class="dropdown-item" href="{% url 'list_edit_brigada' %}">editar</a>
-                                       <a class="dropdown-item" href="{% url 'list_delete_brigada' %}">eliminar</a>
-                                    </div>
-                                 </li>
-                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">usuarios</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                       <a class="dropdown-item" href="{% url 'crear_usuario' %}">crea</a>
-                                       <a class="dropdown-item" href="{% url 'list_edit_user' %}">editar</a>
-                                       <a class="dropdown-item" href="{% url 'list_delete_user' %}">eliminar</a>
+                                       {% comment %} <a class="dropdown-item" href="{% url 'crear_usuario' %}">crea</a> {% endcomment %}
+                                       <a class="dropdown-item" href="{% url 'list_edit_user' %}">Mover usuario de destino</a>
+                                       {% comment %} <a class="dropdown-item" href="{% url 'list_delete_user' %}">eliminar</a> {% endcomment %}
                                     </div>
                                  </li>
                                  <li class="nav-item">

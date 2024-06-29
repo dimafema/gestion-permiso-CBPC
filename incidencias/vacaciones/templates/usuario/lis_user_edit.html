@@ -13,9 +13,9 @@
 <div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
     <ul class="list-group">
         {% for usuario in usuarios|dictsort:"numero_casco" %}
-    <li class="list-group-item" style="background-color: lightcoral; color: black; margin: 5px 50px 10px;">
+    <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 5px 50px 10px;">
             <a href="{% url 'editar_user' usuario.id %}" style="color: black; text-decoration: none;">
-                {{ usuario.numero_casco }}: {{ usuario.nombre }} {{ usuario.apellido }}
+                {{ usuario.numero_casco }}: {{ user.first_name }} {{ user.last_name }}
             </a>
             </a>
     </li>
