@@ -33,15 +33,17 @@
           <div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
                <ul class="list-group">
                {% for usuario in usuarios|dictsort:"numero_casco"  %}
+               {% if usuario.parque_id == user.parque_id and usuario.brigada_id == user.brigada_id %}
                <li class="list-group-item" style="background-color: lightcoral; color: black; margin: 2px 5px 1px;">
                     <a style="color: black; text-decoration: none;">
-                         {{ usuario.numero_casco }}: {{ usuario.nombre }} {{ usuario.apellido }}
-                    </a>
+                         {{ usuario.numero_casco }}: {{ user.first_name }} {{ user.last_name }}<br>
                     </a>
                </li>
+               {% endif %}
                {% endfor %}
                </ul>   
           </div>
+     {% endif %}
      {%else%}
           <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
                <div class="text-center">

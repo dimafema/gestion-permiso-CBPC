@@ -14,6 +14,8 @@ def panel_crear(request):
 
 def cond_uso(request):
     return render(request, 'condicionesuso.html')
+def proyecto(request):
+    return render(request, 'proyecto.html')
 
 def login_page(request):
     form = AuthenticationForm()

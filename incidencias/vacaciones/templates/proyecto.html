@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- site metas -->
+      <title>
+         {% block title %}Condiciones de uso{% endblock title %}
+      </title>
+      <meta name="keywords" content="bomberos, permisos">
+      <meta name="description" content="aplicación web que gestiona los permisos del colectivo de bomberos Cádiz">
+      <meta name="author" content="Diego Fdez.">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+      <!-- style css -->
+      <link rel="stylesheet" href="/static/css/style.css">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="/static/css/responsive.css">
+      <!-- fevicon -->
+      <link rel="icon" href="/static/images/fevicon.png" type="image/gif" />
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+      <style>
+         .banner {
+            background-image: url("/static/images/banner_a.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            width: 100%;
+         }
+      </style>
+   </head>
+   
+   <header>
+     
+   </header>
+ 
+   <body class="main-layout">
+
+      <div class="banner">
+
+         <div class="content" style="margin: 10px;">
+            <h2 style="margin-top: 30px;"><strong>Nombre del Proyecto: Incidencias CBPC, no oficial </strong></h2>
+           <p>El proyecto es una aplicación web que permite a los usuarios gestionar sus tareas de permisos retribuidos de manera eficiente. Proporciona una interfaz intuitiva para crear, editar y eliminar tareas, así como para establecer recordatorios y prioridades. Esta aplicación es útil para cualquier persona que desee organizar y administrar sus actividades sobre los permisos del CBPC de manera efectiva en un entontro de equipos (brigadas) de trabajo como es el caso de bomberos CBPC..</p>
+         <h2><strong><em>Licencia</em></strong></h2>
+         <p>Este proyecto está licenciado bajo la Licencia GNU GPL</p>
+         <h2><strong>Autor</strong></h2>
+           <p>Diego Fdez.</p>
+          <h2><strong>Problemas que Resuelve</strong></h2>
+            <p>Este proyecto resuelve varios problemas relacionados con la gestión de permisos retribuidos en equipos de trabajo CBPC (bomberos). Algunos de los problemas que aborda son:<br>
+
+               1. Desorganización: Elimina la necesidad de hojas de cálculo o notas dispersas, centralizando la información sobre permisos en un solo lugar.<br>
+               2. Falta de seguimiento: Permite establecer recordatorios y prioridades para asegurar que los permisos se gestionen a tiempo y no se pasen por alto.<br>
+               3. Comunicación ineficiente: Facilita la comunicación entre los miembros del equipo sobre los permisos solicitados y aprobados.<br>
+               4. Dificultad de acceso: Al ser una aplicación web, no requiere instalación y se puede acceder desde cualquier dispositivo con conexión a internet.</a></p>
+       </div> 
+       <a class="btn btn-primary" href="{% url 'home' %}">Ir a la página de inicio</a>
+      </div>
+  <!-- end loader -->
+  
+   
+   </body>
+    <!-- Javascript files-->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/jquery-3.0.0.min.js"></script>
+    <!-- sidebar -->
+    <script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/static/js/custom.js"></script> 
