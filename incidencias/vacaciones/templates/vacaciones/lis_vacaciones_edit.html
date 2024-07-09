@@ -7,15 +7,18 @@
  {% block content %}
  <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
     <div class="text-center">
-            <h2>Seleccione las vacaciones a editar</h2>
+            <h2>Seleccione las vacaciones a editar, del parque de {{parque}}</h2>
     </div>
 </div>
 <div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
     <ul class="list-group">
-        {% for vacaciones in vacaciones %}
-    <li class="list-group-item" style="background-color: lightcoral; color: black; margin: 5px 50px 10px;">
-            <a href="{% url 'edit_vacaciones' vacaciones.id %}"style="color: black; text-decoration: none;">
-                  {{vacaciones.usuario.numero_casco}}: {{ vacaciones.fecha_inicio }} al {{ vacaciones.fecha_fin }} = {{ vacaciones.dias_totales }} dias.
+        {% for efectivo in efectivos|dictsort:"numero_casco" %}
+    <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 5px 50px 10px;">
+            <a href="{% url 'edit_vacaciones' efectivo.usuario.id %}" style="color: black; text-decoration: none;">
+                {{ efectivo.numero_casco }}: {{ efectivo }};
+                {% for vacacione in vacaciones%}
+                {{vacacione.fecha_fin}}---{{vacacione.fecha_fin}}= {{vacacione.dias_totales}}
+                {% endfor %}
             </a>
     </li>
         {% endfor %}

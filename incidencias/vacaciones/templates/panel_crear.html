@@ -31,7 +31,7 @@
                   <div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
                         <ul class="list-group">
                         {% for efectivo in efectivos|dictsort:"numero_casco" %}
-                              <li class="list-group-item text-left" style="background-color: rgba(0, 0, 0, 0.1); margin-left: 10%; margin-right: 10%;">{{ efectivo.numero_casco }}: {{ efectivo }} {{user.last_name}}</li>
+                              <li class="list-group-item text-left" style="background-color: rgba(0, 0, 0, 0.1); margin-left: 10%; margin-right: 10%;">{{ efectivo.numero_casco }}: {{ efectivo }}</li>
                         {% endfor %}
                         </ul> 
                   </div>

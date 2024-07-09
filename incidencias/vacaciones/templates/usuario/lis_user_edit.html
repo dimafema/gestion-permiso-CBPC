@@ -7,15 +7,15 @@
  {% block content %}
  <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
     <div class="text-center">
-            <h2>Seleccione el usuario a editar</h2>
+            <h2>Seleccione el usuario a editar, del parque de {{parque}}</h2>
     </div>
 </div>
 <div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
     <ul class="list-group">
-        {% for usuario in usuarios|dictsort:"numero_casco" %}
+        {% for efectivo in efectivos|dictsort:"numero_casco" %}
     <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 5px 50px 10px;">
-            <a href="{% url 'editar_user' usuario.id %}" style="color: black; text-decoration: none;">
-                {{ usuario.numero_casco }}: {{ user.first_name }} {{ user.last_name }}
+            <a href="{% url 'editar_user' efectivo.id %}" style="color: black; text-decoration: none;">
+                {{ efectivo.numero_casco }}: {{ efectivo }}
             </a>
             </a>
     </li>
