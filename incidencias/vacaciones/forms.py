@@ -39,7 +39,6 @@ class UsuarioForm(forms.ModelForm):
             'brigada',
         ]
        
-
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
@@ -52,8 +51,6 @@ class RegisterForm(UserCreationForm):
             'password2',
          ]
 
-
-    
 class ParqueForm(forms.ModelForm):
     class Meta:
         model = Parque

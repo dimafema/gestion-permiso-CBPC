@@ -6,22 +6,47 @@
 {% block content %}
 <hr style="border: 1px solid black;">
 <div style="text-align: center;">
-    <h2>Editar vacaciones</h2>
+    <h2>Editar vacaciones del usuario: {{usuario}}</h2>
 </div>
-        <form method="post" style= "width: 500px; margin: 0 auto; margin-bottom: 10px;">
+<div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
+    <div class="text-center">
+        <h2>Seleccione rango de vacaciones que quieres editar</h2>
+    </div>
+</div>
+<div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
+    <ul class="list-group">
+        {% for vacacion in vacaciones %}
+           
+            <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 5px 50px 10px;">
+                    <a style="color: black; text-decoration: none;">
+                        Empiezas el día: <strong>{{ vacacion.fecha_inicio|date:"d/m/Y" }}</strong>  y terminas el día: <strong>{{ vacacion.fecha_fin|date:"d/m/Y" }}</strong> vas a disfrutar de <strong>{{ vacacion.dias_totales}}</strong> días de vacaciones
+                    </a>
+                    </a>
+            </li>
+        {% endfor %}
+    </ul>   
+</div>
+
+        {% comment %} <form method="post" style= "width: 500px; margin: 0 auto; margin-bottom: 10px;">
             {% csrf_token %}
             <div style="padding: 10px;">
-                {{ form.as_p }}
-            </div>
+                {{ form.fecha_inicio }}
+                {{ form.fecha_fin }}
+                {{form.}}
             </div>
             <div style="padding: 10px;">
+                <h3>Vas a editar el siguiente rango de vacaciones</h3>
+            </div>
+            
+            <div style="padding: 10px;">
+
                 {% for field in form %}
-                {% if field.name != 'usuario' %}
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {% endif %}
-                {% if field.name != 'usuario' %}
-                    <p>{{ field.value }}</p>
-                {% endif %}
+                    {% if field.name != 'usuario' %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% endif %}
+                    {% if field.name != 'usuario' %}
+                        <p>{{ field.value }}</p>
+                    {% endif %}
                 {% endfor %}
             </div>
             <div style="text-align: right; padding: 10px;">
@@ -31,5 +56,5 @@
                     </div>
                 </div>
             </div>
-        </form>
-{% endblock %}
+        </form> {% endcomment %}
+{% endblock %}s

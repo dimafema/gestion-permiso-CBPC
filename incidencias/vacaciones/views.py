@@ -7,13 +7,7 @@ from .forms import UsuarioForm, ParqueForm, ZonaForm, BrigadaForm, UsuarioCreati
 from .models import  Parque, Zona, Brigada, Usuario, Vacaciones
 from datetime import timedelta
 
-# página de incio
-# def panel_crear(request):
-#     usuarios = {'usuarios': Usuario.objects.all()}
-#     return render(request, 'panel_crear.html', usuarios)
-
-
-
+# Crea tus vistas aquí.
 def cond_uso(request):
     return render(request, 'condicionesuso.html')
 def proyecto(request):
@@ -268,8 +262,13 @@ def crear_vacaciones(request):
     else:
         form = VacacionesForm()
     return render(request, 'vacaciones/crear_vacaciones.html', {'form': form},)
+    # Vista que obtiene todos los registros de la tabla vacaciones que coincidan con el argumento id y los envía a un template
+# Vista para crear la lista de los permisos de descansos anuales (vacaciones) del usuario seleccionado
+def editar_vacaciones_lista(request,id):
+    vacaciones = Vacaciones.objects.filter(usuario_id=id).order_by('fecha_inicio')
+    return render(request, 'vacaciones/editar_vacaciones.html', {'vacaciones': vacaciones, 'usuario': vacaciones[0].usuario})
 # Vista para editar los permisos de descansos anuales (vacaiones)
-def editar_vacaciones(request, id):
+def editar_vacaciones_seleccionado(request, id):
     if request.method == 'POST':
         vacaciones = get_object_or_404(Vacaciones, usuario_id=id)
         form = VacacionesForm(request.POST, instance=vacaciones)
@@ -311,25 +310,19 @@ def list_crear_vacaciones(request):
     # Pasa los objetos filtrados al contexto de la plantilla
     return render(request, 'vacaciones/lis_crear_vacaciones.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada})
 # Vista que muestra una lista de usuarios para editar permisos de vacaciones
-def list_edit_vacaciones(request, id):
-    vacaciones = None
-    efectivo = None
-    parque = None
-    brigada = None
-    if request.method == 'POST':
-        # Filtra los objetos Usuario por el usuario autenticado y otros criterios
-        efectivo = Usuario.objects.filter(parque_id=request.user.parque_id)
-        efectivo = Usuario.objects.filter(usuario_id=id)
-        user_vacaciones = Vacaciones.objects.filter(usuario_id=id)
-        if efectivo:
-            parque = efectivo[0].parque
-            brigada = efectivo[0].brigada
-        usuarios_brigada = Usuario.objects.filter(parque_id=efectivo[0].parque_id, brigada_id=efectivo[0].brigada_id) if efectivo else None
-        vacaciones = Vacaciones.objects.filter(usuario_id=user_vacaciones[0].usuario_id) if user_vacaciones else None
+def list_edit_vacaciones(request):
+    if request.user.is_authenticated: 
+            # Filtra los objetos Usuario por el usuario autenticado y otros criterios
+            efectivo = Usuario.objects.filter(usuario_id=request.user.id)
+            if efectivo:
+                parque = efectivo[0].parque
+                brigada = efectivo[0].brigada
+                
+            usuarios_brigada = Usuario.objects.filter(parque_id=efectivo[0].parque_id, brigada_id=efectivo[0].brigada_id) if efectivo else None
     else:
-        usuarios_brigada = None
+            usuarios_brigada = None
     # Pasa los objetos filtrados al contexto de la plantilla
-    return render(request, 'vacaciones/lis_vacaciones_edit.html',  {'efectivos': usuarios_brigada, 'vacaciones': vacaciones, 'parque': parque, 'brigada': brigada})
+    return render(request, 'vacaciones/lis_vacaciones_edit.html',  {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada}) 
 # Vista que muestra una lista de usuarios para eliminar permisos de vacaciones
 def list_delete_vacaciones(request):
     vacaciones = {'vacaciones': Vacaciones.objects.all()}

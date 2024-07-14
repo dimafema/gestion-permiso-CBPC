@@ -37,10 +37,10 @@ urlpatterns = [
     path('list_delete_user/', views.list_delete_user, name='list_delete_user'),
     
     path('crear_vacaciones/', views.crear_vacaciones, name='crear_vacaciones'),
-    path('edit_vacaciones/<int:id>/', views.editar_vacaciones, name='edit_vacaciones'),
+    path('edit_vacaciones/<int:id>/', views.editar_vacaciones_lista, name='edit_vacaciones'),
     path('delete_vacaciones/<int:id>/', views.eliminar_vacaciones, name='delete_vacaciones'),
     path('list_crear_vacaciones', views.list_crear_vacaciones, name='list_crear_vacaciones'),
-    path('list_edit_vacaciones/<int:id>/', views.list_edit_vacaciones, name='list_edit_vacaciones'),
+    path('list_edit_vacaciones', views.list_edit_vacaciones, name='list_edit_vacaciones'),
     path('list_delete_vacaciones/', views.list_delete_vacaciones, name='list_delete_vacaciones'),
     
     
