@@ -36,10 +36,7 @@
       </style>
    </head>
 
-   <header>
-   </header>
- 
-   <body class="main-layout">
+ <body class="main-layout">
     <!-- loader  -->
          <div class="banner">
             <div class="loader_bg">
@@ -62,19 +59,20 @@
                            {% csrf_token %}
                            <div style="padding: 10px;">
                               {{ form.as_p }}
-                        </div>
+                           </div>
                            <div style="text-align: center;">
                               <div class="text-align: center; ">
                                     <div>
                                        <button type="submit" class="btn btn-primary">Acceder</button>
                                     </div>
                               </div>
-                           <div style="text-align: center; border: 0px solid black">
-                              <p>Si aún no estás registrado, regístrate aquí</p>
-                              <a href="registro" class="btn btn-primary">Crear usuario</a>
+                              <div style="text-align: center; border: 0px solid black">
+                                 <p>Si aún no estás registrado, regístrate aquí</p>
+                                 <a href="registro" class="btn btn-primary">Crear usuario</a>
+                              </div>
                            </div>
-                        </div>
                        </form>
+                     </div>
                   </div>
                </div>
             </div>

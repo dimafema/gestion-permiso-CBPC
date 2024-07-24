@@ -44,9 +44,9 @@ class Vacaciones(models.Model):
         else:
             estado = 'No Disfrutada'
             
-        return self.usuario.nombre + '-' + str(self.usuario.numero_casco) + ', vacaciones desde ' + self.fecha_inicio.strftime('%d/%m/%y') + ' a ' + self.fecha_fin.strftime('%d/%m/%y') + ' días de permiso: ' + str(self.dias_totales) +' | '+ estado
-    
+        return  self.usuario.first_name + ': Vacaciones desde ' + self.fecha_inicio.strftime('%d/%m/%y') + ' a ' + self.fecha_fin.strftime('%d/%m/%y') + ' días de permiso: ' + str(self.dias_totales) +' | '+ estado
+    # self.usuario.nombre + '-' + str(self.usuario.numero_casco) +
     class Meta:
         verbose_name = "Vacacione"
         verbose_name_plural = "Vacaciones"
-        ordering = ['fecha_inicio'] , ['usuario']
+        #ordering = ['fecha_inicio'] , ['usuario']

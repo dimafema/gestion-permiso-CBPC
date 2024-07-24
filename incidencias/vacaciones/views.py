@@ -6,6 +6,9 @@ from django.contrib import messages
 from .forms import UsuarioForm, ParqueForm, ZonaForm, BrigadaForm, UsuarioCreationForm, VacacionesForm
 from .models import  Parque, Zona, Brigada, Usuario, Vacaciones
 from datetime import timedelta
+from django.db.models import Sum
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 # Crea tus vistas aquí.
 def cond_uso(request):
@@ -53,11 +56,11 @@ def home(request):
         else:
             usuarios_brigada = None
         # Pasa los objetos filtrados al contexto de la plantilla
-        return render(request, 'panel_crear.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada})
+        return render(request, 'home.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada})
 
 
 
-# Vista para crear un nueva zona
+# ZONAS
 def crear_zona(request):
     if request.method == 'POST':
         form = ZonaForm(request.POST)
@@ -103,7 +106,7 @@ def list_delete_zona(request):
     return render(request, 'zona/lis_zona_delete.html', zona)
 
 
-# Vista para crear un nuevo parque
+# PARQUES
 def crear_parque(request):
     if request.method == 'POST':
         form = ParqueForm(request.POST)
@@ -149,7 +152,7 @@ def list_delete_parque(request):
     return render(request, 'parque/lis_parque_delete.html', parque)
 
 
-# Vista para crear un nueva brigada
+# BRIGADAS
 def crear_brigada(request):
     if request.method == 'POST':
         form = BrigadaForm(request.POST)
@@ -195,7 +198,7 @@ def list_delete_brigada(request):
     return render(request, 'brigada/lis_brigada_delete.html', brigada)
 
 
-# Vista para crear un nuevo usuario bomberos
+# BOMBEROS
 def crear_usuario(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
@@ -250,54 +253,11 @@ def list_delete_user(request):
     return render(request, 'usuario/lis_user_delete.html', usuarios)
 
 
-# Vista para crear los permisos de descansos anuales (vacaiones)
-def crear_vacaciones(request):
-    if request.method == 'POST':
-        form = VacacionesForm(request.POST)
-        if form.is_valid():
-            vacaciones = form.save(commit=False)
-            vacaciones.dias_totales = ((vacaciones.fecha_fin - vacaciones.fecha_inicio) + timedelta(days=1)).days
-            vacaciones.save()
-            return redirect('/home')
-    else:
-        form = VacacionesForm()
-    return render(request, 'vacaciones/crear_vacaciones.html', {'form': form},)
-    # Vista que obtiene todos los registros de la tabla vacaciones que coincidan con el argumento id y los envía a un template
-# Vista para crear la lista de los permisos de descansos anuales (vacaciones) del usuario seleccionado
-def editar_vacaciones_lista(request,id):
-    vacaciones = Vacaciones.objects.filter(usuario_id=id).order_by('fecha_inicio')
-    return render(request, 'vacaciones/editar_vacaciones.html', {'vacaciones': vacaciones, 'usuario': vacaciones[0].usuario})
-# Vista para editar los permisos de descansos anuales (vacaiones)
-def editar_vacaciones_seleccionado(request, id):
-    if request.method == 'POST':
-        vacaciones = get_object_or_404(Vacaciones, usuario_id=id)
-        form = VacacionesForm(request.POST, instance=vacaciones)
-        if form.is_valid():
-            vacaciones = form.save(commit=False)
-            vacaciones.dias_totales = ((vacaciones.fecha_fin - vacaciones.fecha_inicio) + timedelta(days=1)).days
-            vacaciones.save()
-            return redirect('/list_edit_vacaciones',)
-    else:
-        vacaciones = get_object_or_404(Vacaciones, usuario_id=id)
-        form =VacacionesForm(instance=vacaciones)
-    return render(request, 'vacaciones/editar_vacaciones.html', {'form': form})
-# Vista para eliminar los permisos de descansos anuales (vacaiones)
-def eliminar_vacaciones(request,id):
-    vacaciones = get_object_or_404(Vacaciones, id=id)
-    if request.method == 'POST':
-        form = VacacionesForm(request.POST, instance=vacaciones)
-        for field in form.fields.values():
-            field.disabled = True
-        if form.is_valid():
-            vacaciones.delete()
-            return redirect('/list_delete_vacaciones',)
-    else:
-        form =VacacionesForm(instance=vacaciones)
-        for field in form.fields.values():
-            field.disabled = True
-    return render(request, 'vacaciones/delete_vacaciones.html', {'form': form})
-# Vista que muestra una lista de usuarios para crear permisos de vacaciones
-def list_crear_vacaciones(request):
+
+
+# VACACIONES
+# 1) lista los usuarios, selecciona el usuario y crea permisos de descansos anuales (vacaciones) del usuario seleccionado
+def list_crear_vaca_1(request):
     if request.user.is_authenticated: 
             # Filtra los objetos Usuario por el usuario autenticado y otros criterios
             efectivo = Usuario.objects.filter(usuario_id=request.user.id)
@@ -308,9 +268,23 @@ def list_crear_vacaciones(request):
     else:
             usuarios_brigada = None
     # Pasa los objetos filtrados al contexto de la plantilla
-    return render(request, 'vacaciones/lis_crear_vacaciones.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada})
-# Vista que muestra una lista de usuarios para editar permisos de vacaciones
-def list_edit_vacaciones(request):
+    return render(request, 'vacaciones/crear_vaca_list.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada})
+# 2) Formulario para ingresar permisos de descansos anuales (vacaiones), del usuario seleccionado
+def crear_vaca_2(request, id):
+    usuario = get_object_or_404(User, id=id)
+    if request.method == 'POST':
+        form = VacacionesForm(request.POST)
+        if form.is_valid():
+            vacaciones = form.save(commit=False)
+            vacaciones.usuario = usuario
+            vacaciones.dias_totales = ((vacaciones.fecha_fin - vacaciones.fecha_inicio) + timedelta(days=1)).days
+            vacaciones.save()
+            return redirect('/home')
+    else:
+        form = VacacionesForm()
+    return render(request, 'vacaciones/crear_vaca.html', {'form': form})
+# 1) Lista los de usuarios, selecciona el usuario y edita los permisos de descansos anuales (vacaciones) del usuario seleccionado
+def list_edit_vaca_1(request):
     if request.user.is_authenticated: 
             # Filtra los objetos Usuario por el usuario autenticado y otros criterios
             efectivo = Usuario.objects.filter(usuario_id=request.user.id)
@@ -320,10 +294,64 @@ def list_edit_vacaciones(request):
                 
             usuarios_brigada = Usuario.objects.filter(parque_id=efectivo[0].parque_id, brigada_id=efectivo[0].brigada_id) if efectivo else None
     else:
-            usuarios_brigada = None
-    # Pasa los objetos filtrados al contexto de la plantilla
-    return render(request, 'vacaciones/lis_vacaciones_edit.html',  {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada}) 
-# Vista que muestra una lista de usuarios para eliminar permisos de vacaciones
-def list_delete_vacaciones(request):
-    vacaciones = {'vacaciones': Vacaciones.objects.all()}
-    return render(request, 'vacaciones/lis_vacaciones_delete.html', vacaciones)
+            return HttpResponse('<h2>No hemos encotrado usuario</h2>')
+    return render(request, 'vacaciones/edit_vaca_list_0.html',  {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada}) 
+# 2) lista de los permisos de descansos anuales (vacaciones) del usuario seleccionado
+def list_edit_perm_2(request,id):
+    vacaciones = Vacaciones.objects.filter(usuario_id=id).order_by('fecha_inicio')
+    if vacaciones:
+        for acumulados in vacaciones:
+            acumulados = vacaciones.aggregate(total_dias=Sum('dias_totales'))['total_dias']
+            if acumulados > 30:
+                acumulados = "Has excedido el límite de días de vacaciones"
+    else:
+        return HttpResponse('<h2>No hemos encontrado permisos de vacaciones</h2>')
+    return render(request, 'vacaciones/edit_vaca_list_1.html', {'vacaciones': vacaciones, 'usuario': vacaciones[0].usuario,'sumatorio_dias': acumulados,})
+# 3) formulario para editar el permiso (vacacicones) seleccionado del un usuario específico ------PENDIENTE-----
+def edit_perm_select_3(request, id):
+    vacacion = Vacaciones.objects.get(id=id) # Obtiene el objeto Vacaciones que es igual al id de la url
+    if request.method == 'POST':
+        form = VacacionesForm(request.POST, instance=vacacion)
+        if form.is_valid():
+            vacacion = form.save(commit=False)
+            vacacion.dias_totales = ((vacacion.fecha_fin - vacacion.fecha_inicio) + timedelta(days=1)).days
+            vacacion.save()
+            return redirect('/home')
+        else:
+            return HttpResponse('<h2>No hemos podido editar el permiso de vacaciones</h2>')
+    form = VacacionesForm(instance=vacacion)
+    return render(request, 'vacaciones/edit_vaca.html', {'form': form, 'permiso': vacacion})
+
+
+# 1) Lista usuarios para eliminar permisos de vacaciones
+def list_delete_vaca_1(request):
+    if request.user.is_authenticated: 
+            # Filtra los objetos Usuario por el usuario autenticado y otros criterios
+            efectivo = Usuario.objects.filter(usuario_id=request.user.id)
+            if efectivo:
+                parque = efectivo[0].parque
+                brigada = efectivo[0].brigada
+                
+            usuarios_brigada = Usuario.objects.filter(parque_id=efectivo[0].parque_id, brigada_id=efectivo[0].brigada_id) if efectivo else None
+    else:
+            return HttpResponse('<h2>No hemos encotrado usuario</h2>')
+    return render(request, 'vacaciones/delete_vaca_list_0.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada})
+# 2) lista de los permisos de descansos anuales (vacaciones) del usuario seleccionado
+def list_delete_perm_2(request,id):
+    vacaciones = Vacaciones.objects.filter(usuario_id=id).order_by('fecha_inicio')
+    if vacaciones:
+        for acumulados in vacaciones:
+            acumulados = vacaciones.aggregate(total_dias=Sum('dias_totales'))['total_dias']
+            if acumulados > 30:
+                acumulados = "Has excedido el límite de días de vacaciones"
+    else:
+        return HttpResponse('<h2>No hemos encontrado permisos de vacaciones</h2>')
+    
+    return render(request, 'vacaciones/delete_vaca_list_1.html', {'vacaciones': vacaciones, 'usuario': vacaciones[0].usuario,'sumatorio_dias': acumulados,})
+# 3) Vista para eliminar los permisos de descansos anuales (vacaiones)
+def delete_vacaciones(request,id):
+    vacacion = Vacaciones.objects.get(id=id) # Obtiene el objeto Vacaciones que es igual al id de la url
+    vacacion.delete()
+    return redirect('/home')
+
+

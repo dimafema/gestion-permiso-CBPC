@@ -33,7 +33,6 @@ class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
         fields = [
-            'numero_casco',
             'zona',
             'parque',
             'brigada',
@@ -69,12 +68,12 @@ class BrigadaForm(forms.ModelForm):
 class VacacionesForm(forms.ModelForm):
     class Meta:
         model = Vacaciones
-        fields ='__all__'
+        fields = ['fecha_inicio', 'fecha_fin', 'dias_totales']
         widgets = {
             'fecha_inicio': forms.DateInput(attrs={'type': 'date'}),
             'fecha_fin': forms.DateInput(attrs={'type': 'date'}),
             'dias_totales': forms.HiddenInput(),
-        }  
+        }
 
 class LoginForm(AuthenticationForm):
    class Meta:
@@ -86,3 +85,5 @@ class LoginForm(AuthenticationForm):
         widgets = {
             'password': forms.PasswordInput(),
         }
+        
+
