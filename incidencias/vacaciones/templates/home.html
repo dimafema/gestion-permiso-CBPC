@@ -39,7 +39,9 @@
                   <div style="margin-left: 5%;"><a href="{% url 'condiciones_uso' %}"><strong><em>Ir a Términos y Condiciones de Uso</em></strong></a></div>
       {% else %}
             <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
-                  <div class="text-center"><h1>Debes estar identificado para ver el contenido</h1></div>
+                  <div style="margin-center"><a href="{% url 'inicio' %}"> <h1>Debes estar identificado para ver el contenido</h1>Identificarme</a></div>
             </div>
+            <hr style="border: 0,5px solid black;">     
+            <div style="margin-left: 5%;"><a href="{% url 'condiciones_uso' %}"><strong><em>Ir a Términos y Condiciones de Uso</em></strong></a></div>
       {% endif %}
 {% endblock content %}

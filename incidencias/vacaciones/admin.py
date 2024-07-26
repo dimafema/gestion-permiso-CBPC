@@ -7,6 +7,7 @@ admin.site.register(Parque)
 admin.site.register(Brigada)
 admin.site.register(Usuario)
 admin.site.register(Vacaciones)
+admin.site.register(Bolsa)
 
 
 title = "Panel de gestión de permisos"

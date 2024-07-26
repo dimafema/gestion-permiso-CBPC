@@ -28,7 +28,7 @@ class Usuario(models.Model):
     parque = models.ForeignKey(Parque, on_delete=models.CASCADE)
     brigada = models.ForeignKey(Brigada, on_delete=models.CASCADE)
     def __str__(self):
-        return f"{self.usuario.first_name} {self.usuario.last_name}"    
+        return f"{self.usuario.first_name} {self.usuario.last_name} {self.numero_casco}"    
 
 class Vacaciones(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -37,16 +37,30 @@ class Vacaciones(models.Model):
     fecha_fin = models.DateField()
     dias_totales = models.IntegerField(blank=True, null=True)
     disfrutada = models.BooleanField(default=False)
-    
     def __str__(self):
         if self.disfrutada == True:
             estado = 'Disfrutada'
         else:
             estado = 'No Disfrutada'
-            
         return  self.usuario.first_name + ': Vacaciones desde ' + self.fecha_inicio.strftime('%d/%m/%y') + ' a ' + self.fecha_fin.strftime('%d/%m/%y') + ' días de permiso: ' + str(self.dias_totales) +' | '+ estado
-    # self.usuario.nombre + '-' + str(self.usuario.numero_casco) +
     class Meta:
         verbose_name = "Vacacione"
         verbose_name_plural = "Vacaciones"
-        #ordering = ['fecha_inicio'] , ['usuario']
+        
+class Bolsa(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    USERNAME_FIELD = 'usuario'  # Usar el usuario como el identificador único para autenticación
+    fecha = models.DateField()
+    horas = models.IntegerField()
+    hrs_extras = models.BooleanField(default=False)
+    brigada = models.ForeignKey(Brigada, on_delete=models.CASCADE)
+    lugar = models.ForeignKey(Parque, on_delete=models.CASCADE)
+    def __str__(self):
+        if self.hrs_extras == True:
+            estado = 'Horas Extras de bolsa'
+        else:
+            estado = 'Horas de bolsa'
+        return f"{self.usuario} {self.fecha}"   
+    class Meta:
+        verbose_name = "Bolsa"
+        verbose_name_plural = "Bolsas"

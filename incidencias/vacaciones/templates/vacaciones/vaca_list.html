@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Vacaciones por brigada {% endblock title %}
+     <div class="button-container">
+
+ {% block content %}
+<div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
+    <div class="text-center">
+        <h2>Vacaciones de la <strong>{{brigada}}</strong> del parque de <strong>{{parque}}</strong></h2>
+    </div>
+</div>
+<div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
+    <ul class="list-group">
+        {% for efectivo in efectivos|dictsort:"numero_casco" %}
+            <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 1px 5px 1px;">
+                    <a style="color: black; text-decoration: none;">
+                        {{ efectivo.numero_casco }}: {{ efectivo }}
+                    </a>
+                    <ul class="list-group">
+                        {% for vacacion in vacaciones %}
+                                {% if vacacion.usuario_id == efectivo.usuario_id %}
+                                    <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 1px 1px 1px;">
+                                        <a style="color: black; text-decoration: none;">
+                                                    Inicio: <strong>{{ vacacion.fecha_inicio|date:"d/m/Y" }}</strong> fin: <strong>{{ vacacion.fecha_fin|date:"d/m/Y" }}</strong>/ <strong>{{ vacacion.dias_totales }}</strong> días.
+                                        </a>
+                                    </li>
+                                {% endif %}
+                        {% endfor %} 
+                    </ul>   
+            </li>
+        {% endfor %}
+    </ul>   
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+
+
+
+{% block title %} Bolsa por brigada {% endblock title %}
+
+{% block content %}
+<div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
+    <div class="text-center">
+        <h2>Horas de bolsas, <strong>{{brigada}}</strong> del parque de <strong>{{parque}}</strong></h2> <br>
+        <h3> Horas asignada por efectivo actualmente: <strong>{{asignadas}}</strong> horas.</h3>
+    </div>
+</div>
+<div class="text-left">
+    <ul class="list-group">
+        {% for efectivo in efectivos|dictsort:'numero_casco' %}
+            <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 1px 5px 1px;">
+                <a style="color: black; text-decoration: none;">
+                    {{ efectivo.numero_casco }}: {{ efectivo }}, total de horas realizadas: 
+                    <strong style="color: red";>{%for suma in sumatorio%}
+                            {% if suma.usuario_id == efectivo.usuario_id %}
+                                {{ suma.total_horas|floatformat:"0" }} 
+                            {% endif %}
+                            {% endfor%}
+                    </strong>
+                </a>
+                <ul class="list-group">
+                    {% for bolsa in bolsas %}
+                        {% if bolsa.usuario_id == efectivo.usuario_id and not bolsa.hrs_extras %}
+                            <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 1px 1px 1px;">
+                                <a style="color: black; text-decoration: none;">
+                                    Fecha: <strong>{{ bolsa.fecha|date:"d/m/Y" }}</strong> horas: <strong>{{ bolsa.horas }}</strong> en el parque de: <strong>{{ bolsa.lugar }}</strong> con la: <strong>{{ bolsa.brigada }}</strong>
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>   
+            </li>
+        {% endfor %}
+    </ul>   
+</div>
+{% endblock %}

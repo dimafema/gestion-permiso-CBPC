@@ -1,5 +1,5 @@
 from django import forms
-from .models import Usuario, Parque, Zona, Brigada, Vacaciones
+from .models import Usuario, Parque, Zona, Brigada, Vacaciones, Bolsa
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.models import User
@@ -86,4 +86,11 @@ class LoginForm(AuthenticationForm):
             'password': forms.PasswordInput(),
         }
         
-
+        
+class BolasForm(forms.ModelForm):
+    class Meta:
+        model = Bolsa
+        fields = ['fecha', 'horas', 'brigada', 'lugar', 'hrs_extras']
+        widgets = {
+            'fecha': forms.DateInput(attrs={'type': 'date'}),
+        }
