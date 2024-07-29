@@ -63,7 +63,16 @@ urlpatterns = [
 
     # BOLSA
     path('list_bolsa/', views.list_bolsa, name='list_bolsa'),
+    path('list_bolsaex/', views.list_bolsaex, name='list_bolsaex'),
     path('list_crear_bolsa/', views.list_crear_bolsa_1, name='list_crear_bolsa'),
     path('crear_bolsa/<int:id>/', views.crear_bolsa_2, name='crear_bolsa'),
     #------------------------------------------------------------------------------------
+    path('list_edit_bolsa/', views.list_edit_bolsa_1, name='list_edit_bolsa'),
+    path('edit_bolsa/<int:id>/', views.list_edit_bolsa_2, name='edit_bolsa'),
+    path('edit_bolsahrs/<int:id>/', views.edit_bolsa_select_3, name='edit_bolsahrs'),
+    #------------------------------------------------------------------------------------
+    path('list_delete_bolsa/', views.list_delete_bolsa_1, name='list_delete_bolsa'),
+    path('delete_bolsa/<int:id>/', views.list_delete_bolsa_2, name='delete_bolsa'),
+    path('delete_bolsahrs/<int:id>/', views.delete_bolsa, name='delete_bolsahrs'),
+
 ]

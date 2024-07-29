@@ -51,19 +51,21 @@
                            <div class="collapse navbar-collapse" id="navbarsExample04">
                               <ul class="navbar-nav mr-auto">
                                  <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Horas bolsa</a>
+                                    <a class="nav-link dropdown-toggle" href="#"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bolsa</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                       <a class="dropdown-item" href="{% url 'list_bolsa'%}">Bolsa brigada</a>
+                                       <a class="dropdown-item" href="{% url 'list_bolsa'%}">hrs. bolsa</a>
+                                       <a class="dropdown-item" href="{% url 'list_bolsaex'%}">bolsa ext.</a>
+                                       <a class="dropdown-item">--------------------</a>
                                        <a class="dropdown-item" href="{% url 'list_crear_bolsa'%}">Crear</a>
-                                       <a class="dropdown-item" href="{% url 'home'%}">Editar</a>
-                                       <a class="dropdown-item" href="{% url 'home'%}">Eliminar</a>
+                                       <a class="dropdown-item" href="{% url 'list_edit_bolsa'%}">Editar</a>
+                                       <a class="dropdown-item" href="{% url 'list_delete_bolsa'%}">Eliminar</a>
                                     </div>
                                  </li>
                                  
                                  <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">vacaciones</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                       <a class="dropdown-item">Vacaciones brigada</a>
+                                       <a class="dropdown-item" href="{% url 'list_perm'%}">Vacaciones brigada</a>
                                        <a class="dropdown-item" href="{% url 'list_crear_vacaciones'%}">Crear</a>
                                        <a class="dropdown-item" href="{% url 'list_edit_vacaciones'%}">Editar</a>
                                        <a class="dropdown-item" href="{% url 'list_delete_vacaciones'%}">Eliminar</a>
@@ -79,8 +81,12 @@
                                     <a class="nav-link" href="{% url 'proyecto' %}">proyecto</a>
                                  </li>
                                  <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'home' %}">Inicio</a>
+                                 </li>
+                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'inicio' %}">salir</a>
                                  </li>
+                                       
                               </ul>
                            </div>
                         </nav>

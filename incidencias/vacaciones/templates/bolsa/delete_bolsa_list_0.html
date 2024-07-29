@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 
-{% block title %} editar vacaciones {% endblock title %}
+{% block title %} Eliminar bolsa {% endblock title %}
      <div class="button-container">
 
  {% block content %}
 <div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
     <div class="text-center">
-        <h2>Seleccione efectivo de la <strong>{{brigada}}</strong> para <strong>EDITAR</strong> vacaciones, estás en el parque de {{parque}}</h2>
+        <h2>Seleccione efectivo de la <strong>{{brigada}}</strong> para <strong>ELIMINAR</strong> hrs. bolsa, estás en el parque de {{parque}}</h2>
     </div>
 </div>
 <div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
     <ul class="list-group">
         {% for efectivo in efectivos|dictsort:"numero_casco" %}
     <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 5px 50px 10px;">
-            <a href="{% url 'edit_vacaciones' efectivo.usuario_id%}" style="color: black; text-decoration: none;">
+            <a href="{% url 'delete_bolsa' efectivo.usuario_id%}" style="color: black; text-decoration: none;">
                 {{ efectivo.numero_casco }}: {{ efectivo }}
             </a>
     </li>

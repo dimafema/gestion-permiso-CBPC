@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar hrs. bolsa seleccionada{% endblock title %}
+     <div class="button-container">
+
+{% block content %}
+<hr style="border: 1px solid black;">
+<div style="text-align: center;">
+    <h2>Eliminar hrs. bolsa del usuario: {{usuario}}</h2>
+</div>
+<div class="button-container" style="text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; height: 10vh;">
+    <div class="text-center">
+        <h2>Seleccione hrs. de bolsa que quieres eliminar</h2>
+    </div>
+</div>
+<div class="text<i class="fa fa-align-left" aria-hidden="true"></i>
+    <ul class="list-group">
+        {% for bolsa in bolsas %}
+            <li class="list-group-item" style="background-color: rgba(0, 0, 0, 0.1); color: black; margin: 5px 50px 10px;">
+                <a href="{% url 'delete_bolsa' bolsa.id %}" style="color: black; text-decoration: none;">
+                    Fecha: <strong>{{ bolsa.fecha|date:"d/m/Y" }}</strong> horas: <strong>{{ bolsa.horas }}</strong> destino: <strong>{{ bolsa.lugar }}</strong> con la: <strong>{{ bolsa.brigada }}</strong> | -- 
+                        {% if bolsa.hrs_extras == True %}
+                            <strong style="color: red;">Extras</strong> --
+                        {% else %}
+                            <strong>Asignadas</strong> --
+                        {%endif%}
+                </a>
+                <a href="{% url 'delete_bolsahrs' bolsa.id %}" style="color: black; text-decoration: none; float: right;">
+                    <i class="fa fa-trash" aria-hidden="true"></i>Eliminar
+                </a>
+            </li>
+        {% endfor %}
+    </ul>   
+</div>
+{% endblock %}

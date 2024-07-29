@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout  # Import the logout function
 from django.contrib import messages
-from .forms import UsuarioForm, ParqueForm, ZonaForm, BrigadaForm, UsuarioCreationForm, VacacionesForm, BolasForm
+from .forms import UsuarioForm, ParqueForm, ZonaForm, BrigadaForm, UsuarioCreationForm, VacacionesForm, BolsasForm
 from .models import  Parque, Zona, Brigada, Usuario, Vacaciones, Bolsa
 from datetime import timedelta
 from django.db.models import Sum
@@ -394,6 +394,20 @@ def list_bolsa(request):
     bolsa_asignadas = 72
     sumatorio_horas = Bolsa.objects.filter(hrs_extras=False).values('usuario_id').annotate(total_horas=Sum('horas'))
     return render(request, 'bolsa/bolsa_list.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada, 'bolsas': bolsa,'sumatorio': sumatorio_horas, 'asignadas': bolsa_asignadas})
+def list_bolsaex(request):
+    if request.user.is_authenticated: 
+            efectivo = Usuario.objects.filter(usuario_id=request.user.id)
+            if efectivo:
+                parque = efectivo[0].parque
+                brigada = efectivo[0].brigada
+            usuarios_brigada = Usuario.objects.filter(parque_id=efectivo[0].parque_id, brigada_id=efectivo[0].brigada_id) if efectivo else None
+    else:
+            usuarios_brigada = None
+            
+    bolsa = Bolsa.objects.order_by('fecha')
+    bolsa_asignadas = 72
+    sumatorio_horas = Bolsa.objects.filter(hrs_extras=True).values('usuario_id').annotate(total_horas=Sum('horas'))
+    return render(request, 'bolsa/bolsaex_list.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada, 'bolsas': bolsa,'sumatorio': sumatorio_horas, 'asignadas': bolsa_asignadas})
 # 1) lista los usuarios, selecciona el usuario y crea bolsa del usuario seleccionado
 def list_crear_bolsa_1(request):
     if request.user.is_authenticated: 
@@ -411,14 +425,14 @@ def list_crear_bolsa_1(request):
 def crear_bolsa_2(request, id):
     usuario = get_object_or_404(User, id=id)
     if request.method == 'POST':
-        form = BolasForm(request.POST)
+        form = BolsasForm(request.POST)
         if form.is_valid():
             bolsa = form.save(commit=False)
             bolsa.usuario = usuario
             bolsa.save()
             return redirect('/home')
     else:
-        form = BolasForm()
+        form = BolsasForm()
     return render(request, 'bolsa/crear_bolsa.html', {'form': form})
 # 1) Lista los de usuarios, selecciona el usuario y edita la bolsa del usuario seleccionado
 def list_edit_bolsa_1(request):
@@ -432,32 +446,31 @@ def list_edit_bolsa_1(request):
             usuarios_brigada = Usuario.objects.filter(parque_id=efectivo[0].parque_id, brigada_id=efectivo[0].brigada_id) if efectivo else None
     else:
             return HttpResponse('<h2>No hemos encotrado usuario</h2>')
-    return render(request, 'vacaciones/edit_vaca_list_0.html',  {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada}) 
+    return render(request, 'bolsa/edit_bolsa_list_0.html',  {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada}) 
 # 2) lista la bolsa del usuario seleccionado
 def list_edit_bolsa_2(request,id):
-    vacaciones = Vacaciones.objects.filter(usuario_id=id).order_by('fecha_inicio')
-    if vacaciones:
-        for acumulados in vacaciones:
-            acumulados = vacaciones.aggregate(total_dias=Sum('dias_totales'))['total_dias']
-            if acumulados > 30:
-                acumulados = "Has excedido el límite de días de vacaciones"
+    bolsa = Bolsa.objects.filter(usuario_id=id).order_by('fecha')
+    if bolsa:
+        for acumulados in bolsa:
+            acumulados = bolsa.filter(usuario_id=id).aggregate(total_horas=Sum('horas'))['total_horas']
+            if acumulados > 72:
+                acumulados = "Has excedido las horas asignadas"
     else:
-        return HttpResponse('<h2>No hemos encontrado permisos de vacaciones</h2>')
-    return render(request, 'vacaciones/edit_vaca_list_1.html', {'vacaciones': vacaciones, 'usuario': vacaciones[0].usuario,'sumatorio_dias': acumulados,})
+        return HttpResponse('<h2>No hemos encontrado bolsa realizada</h2>')
+    return render(request, 'bolsa/edit_bolsa_list_1.html', {'bolsas': bolsa, 'usuario': bolsa[0].usuario,'sumatorio': acumulados,})
 # 3) formulario para editar la bolsa seleccionado del un usuario específico
 def edit_bolsa_select_3(request, id):
-    vacacion = Vacaciones.objects.get(id=id) # Obtiene el objeto Vacaciones que es igual al id de la url
+    bolsa = Bolsa.objects.get(id=id) # Obtiene el objeto Vacaciones que es igual al id de la url
     if request.method == 'POST':
-        form = VacacionesForm(request.POST, instance=vacacion)
+        form = BolsasForm(request.POST, instance=bolsa)
         if form.is_valid():
-            vacacion = form.save(commit=False)
-            vacacion.dias_totales = ((vacacion.fecha_fin - vacacion.fecha_inicio) + timedelta(days=1)).days
-            vacacion.save()
+            bolsa = form.save(commit=False)
+            bolsa.save()
             return redirect('/home')
         else:
-            return HttpResponse('<h2>No hemos podido editar el permiso de vacaciones</h2>')
-    form = VacacionesForm(instance=vacacion)
-    return render(request, 'vacaciones/edit_vaca.html', {'form': form, 'permiso': vacacion})
+            return HttpResponse('<h2>No hemos podido editar las horas de bolsas</h2>')
+    form = BolsasForm(instance=bolsa)
+    return render(request, 'bolsa/edit_bolsa.html', {'form': form, 'bolsahrs': bolsa})
 # 1) Lista usuarios para eliminar horas de bolsa
 def list_delete_bolsa_1(request):
     if request.user.is_authenticated: 
@@ -470,21 +483,20 @@ def list_delete_bolsa_1(request):
             usuarios_brigada = Usuario.objects.filter(parque_id=efectivo[0].parque_id, brigada_id=efectivo[0].brigada_id) if efectivo else None
     else:
             return HttpResponse('<h2>No hemos encotrado usuario</h2>')
-    return render(request, 'vacaciones/delete_vaca_list_0.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada})
+    return render(request, 'bolsa/delete_bolsa_list_0.html', {'efectivos': usuarios_brigada, 'parque': parque, 'brigada': brigada})
 # 2) lista de bolsa del usuario seleccionado
 def list_delete_bolsa_2(request,id):
-    vacaciones = Vacaciones.objects.filter(usuario_id=id).order_by('fecha_inicio')
-    if vacaciones:
-        for acumulados in vacaciones:
-            acumulados = vacaciones.aggregate(total_dias=Sum('dias_totales'))['total_dias']
-            if acumulados > 30:
-                acumulados = "Has excedido el límite de días de vacaciones"
+    bolsa = Bolsa.objects.filter(usuario_id=id).order_by('fecha')
+    if bolsa:
+        for acumulados in bolsa:
+            acumulados = bolsa.filter(usuario_id=id).aggregate(total_horas=Sum('horas'))['total_horas']
+            if acumulados > 72:
+                acumulados = "Has excedido las horas asignadas"
     else:
         return HttpResponse('<h2>No hemos encontrado permisos de vacaciones</h2>')
-    
-    return render(request, 'vacaciones/delete_vaca_list_1.html', {'vacaciones': vacaciones, 'usuario': vacaciones[0].usuario,'sumatorio_dias': acumulados,})
+    return render(request, 'bolsa/delete_bolsa_list_1.html', {'bolsas': bolsa, 'usuario': bolsa[0].usuario,'sumatorio': acumulados,})
 # 3) Vista para eliminar bolsa
 def delete_bolsa(request,id):
-    vacacion = Vacaciones.objects.get(id=id) # Obtiene el objeto Vacaciones que es igual al id de la url
-    vacacion.delete()
+    bolsa = Bolsa.objects.get(id=id) # Obtiene el objeto Vacaciones que es igual al id de la url
+    bolsa.delete()
     return redirect('/home')

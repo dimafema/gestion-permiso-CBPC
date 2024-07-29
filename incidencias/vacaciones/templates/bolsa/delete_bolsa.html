@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar hrs. bolsa{% endblock title %}
+     <div class="button-container">
+
+{% block content %}
+<hr style="border: 1px solid black;">
+    <div style="text-align: center;">    
+        <h2>Eliminar bolsa</h2>
+    </div>
+    
+    <hr style="border: 1px solid black;">
+    <div style="text-align: center;">
+        <h2>Vas a eliminar las siguientes hrs. de bolsa</h2>
+        <p>Fecha: <strong>{{ bolsa.fecha|date:"d/m/Y" }}</strong> horas: <strong>{{ bolsa.horas }}</strong> destino: <strong>{{ bolsa.lugar }}</strong> con la: <strong>{{ bolsa.brigada }}</strong> | -- 
+            {% if bolsa.hrs_extras == True %}
+                <strong style="color: red;">Extras</strong> --
+            {% else %}
+                <strong>Asignadas</strong> --
+            {%endif%}</p>
+    </div>
+    <div style="text-align: right; padding: 10px;">
+        <div href= "{% url delete_bolsahrs %}" class="text-bg">
+            <div>
+                <button type="submit" class="read_more" href="Javascript:void(0)">Eliminar</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

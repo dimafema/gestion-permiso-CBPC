@@ -87,7 +87,7 @@ class LoginForm(AuthenticationForm):
         }
         
         
-class BolasForm(forms.ModelForm):
+class BolsasForm(forms.ModelForm):
     class Meta:
         model = Bolsa
         fields = ['fecha', 'horas', 'brigada', 'lugar', 'hrs_extras']

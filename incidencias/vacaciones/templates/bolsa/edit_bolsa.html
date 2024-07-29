@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Editar vacaciones seleccionada{% endblock title %}
+{% block title %}Editar bolsa seleccionada{% endblock title %}
      <div class="button-container">
 
 {% block content %}
 <hr style="border: 1px solid black;">
 <div style="text-align: center;">
-    <h2>Estás editantdo el siguiente rango de vacaciones</h2>
-    <p>Desde {{permiso.fecha_inicio|date:"d/m/Y"}} - {{permiso.fecha_fin|date:"d/m/Y"}} con un total de días: {{permiso.dias_totales}}</p>
+    <h2>Estás editantdo las horas de bolsa</h2>
+    Fecha: <strong>{{ bolsahrs.fecha|date:"d/m/Y" }}</strong> horas: <strong>{{ bolsahrs.horas }}</strong> en el parque de: <strong>{{ bolsahrs.lugar }}</strong> con la: <strong>{{ bolsahrs.brigada }}</strong>
 </div>
 <form method="post" style= "width: 500px; margin: 0 auto; margin-bottom: 10px;">
     {% csrf_token %}
